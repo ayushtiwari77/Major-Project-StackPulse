@@ -71,7 +71,7 @@ const Home = () => {
           return (
             <div
               key={singleProject._id}
-              className="project flex flex-col gap-2 cursor-pointer p-4 border border-slate-200 rounded-md min-w-52 hover:bg-slate-200"
+              className="project bg-slate-200 flex flex-col gap-2 cursor-pointer p-4 border border-slate-200 rounded-md min-w-52 hover:bg-slate-200"
               onClick={() => handleSingleProjectClick(singleProject)}
             >
               <h2 className="font-semibold">{singleProject.projectName}</h2>
