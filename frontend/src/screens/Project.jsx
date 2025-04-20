@@ -39,7 +39,7 @@ const Project = () => {
   const [messages, setMessages] = useState("");
   const { user: currentUser } = UseUser();
   const messageBoxRef = React.useRef(null);
-
+const [webContainerLoading, setWebContainerLoading] = useState(false);
   const [messageArr, setMessageArr] = useState([]);
   const [fileTree, setFileTree] = useState({});
 
@@ -156,13 +156,41 @@ const Project = () => {
 
   //
 
-  useEffect(() => {
-    if (!webContainer) {
-      getWebContainer().then((container) => {
-        setWebContainer(container);
-        console.log("container started");
-      });
+async function initWebContainer() {
+    try {
+      setWebContainerLoading(true);
+      const container = await getWebContainer();
+      setWebContainer(container);
+      console.log("WebContainer started successfully");
+    } catch (error) {
+      console.error("Failed to initialize WebContainer:", error);
+    } finally {
+      setWebContainerLoading(false);
     }
+  }
+
+useEffect(() => {
+    let mounted = true;
+
+    const init = async () => {
+      if (!webContainer && mounted) {
+        await initWebContainer();
+      }
+    };
+
+    init();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+
+
+  
+  
+  useEffect(() => {
+   
 
     //starting socket connection on opening a project
     initailizeSocket(project._id);
