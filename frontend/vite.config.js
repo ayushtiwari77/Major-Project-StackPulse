@@ -9,12 +9,25 @@ export default defineConfig({
     headers: {
       "Cross-Origin-Embedder-Policy": "require-corp",
       "Cross-Origin-Opener-Policy": "same-origin",
+      "Cross-Origin-Resource-Policy": "cross-origin",
     },
     proxy: {
       "/cdn": {
         target: "https://unpkg.com",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/cdn/, ""),
+      },
+    },
+  },
+  optimizeDeps: {
+    exclude: ["@webcontainer/api"],
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          webcontainer: ["@webcontainer/api"],
+        },
       },
     },
   },
