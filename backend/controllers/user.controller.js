@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import * as userServices from "../services/user.service.js";
 import { validationResult } from "express-validator";
-import redisClient from "../services/redis.service.js";
+//import redisClient from "../services/redis.service.js";
 import bcrypt from "bcryptjs";
 
 //user creation logic
@@ -78,7 +78,7 @@ export const logoutController = async (req, res) => {
   try {
     const token = req.headers.authorization.split(" ")[1] || req.cookies.token;
 
-    redisClient.set(token, "logout", "EX", 60 * 60 * 24);
+    //redisClient.set(token, "logout", "EX", 60 * 60 * 24);
 
     res.status(200).json({
       message: "Logged Out successfully",
